@@ -35,7 +35,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const getQrKey = async () => {
-    const res = await api.get('/login/qr/key');
+    const res = await api.get(`/login/qr/key?timestamp=${Date.now()}`);
     if (res.data.code === 200) {
       qrKey.value = res.data.data.unikey;
       await createQr();
@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const createQr = async () => {
-    const res = await api.get(`/login/qr/create?key=${qrKey.value}&qrimg=true`);
+    const res = await api.get(`/login/qr/create?key=${qrKey.value}&qrimg=true&timestamp=${Date.now()}`);
     if (res.data.code === 200) {
       qrUrl.value = res.data.data.qrurl;
     }
@@ -51,7 +51,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const checkQrStatus = async () => {
     if (!qrKey.value) return;
-    const res = await api.get(`/login/qr/check?key=${qrKey.value}`);
+    const res = await api.get(`/login/qr/check?key=${qrKey.value}&timestamp=${Date.now()}`);
     qrStatus.value = res.data.code;
     
     if (res.data.code === 803) {

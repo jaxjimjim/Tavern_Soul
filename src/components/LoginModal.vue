@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted } from 'vue';
+import { onUnmounted, watch } from 'vue';
 import { Icon } from '@iconify/vue';
 import QrcodeVue from 'qrcode.vue';
 import { useAuthStore } from '../stores/authStore';
@@ -48,18 +48,29 @@ const startPolling = () => {
     const status = await authStore.checkQrStatus();
     if (status === 800 || status === 803) {
       clearInterval(pollInterval);
+      pollInterval = null;
     }
   }, 3000);
 };
 
 const refreshQr = async () => {
-  clearInterval(pollInterval);
+  if (pollInterval) {
+    clearInterval(pollInterval);
+    pollInterval = null;
+  }
   await authStore.getQrKey();
   startPolling();
 };
 
-onMounted(async () => {
-  await refreshQr();
+watch(() => authStore.showLoginModal, (newVal) => {
+  if (newVal) {
+    refreshQr();
+  } else {
+    if (pollInterval) {
+      clearInterval(pollInterval);
+      pollInterval = null;
+    }
+  }
 });
 
 onUnmounted(() => {
@@ -67,7 +78,10 @@ onUnmounted(() => {
 });
 
 const closeModal = () => {
-  if (pollInterval) clearInterval(pollInterval);
+  if (pollInterval) {
+    clearInterval(pollInterval);
+    pollInterval = null;
+  }
   authStore.showLoginModal = false;
 };
 </script>
