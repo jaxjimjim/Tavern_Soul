@@ -214,11 +214,9 @@ import { ref } from 'vue';
 import { Icon } from '@iconify/vue';
 import { usePlayerStore } from '../stores/playerStore';
 import { useAuthStore } from '../stores/authStore';
-import { useRouter } from 'vue-router';
 
 const playerStore = usePlayerStore();
 const authStore = useAuthStore();
-const router = useRouter();
 
 // Clone for local editing
 const crossfadeDuration = ref(playerStore.crossfadeDuration);

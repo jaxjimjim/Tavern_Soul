@@ -303,10 +303,6 @@ const toggleDevice = (deviceId: string) => {
   }
   
   playerStore.activeDeviceIds = active;
-  // This will trigger the watch in playerStore to sync with AudioEngine
-  if (playerStore.engine && (playerStore.engine as any).setSinkIds) {
-    (playerStore.engine as any).setSinkIds(active);
-  }
 };
 
 const triggerAtmosphere = (name: string, playlistIds: number[]) => {

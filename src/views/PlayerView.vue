@@ -63,7 +63,7 @@
 
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { usePlayerStore } from '../stores/playerStore';
 

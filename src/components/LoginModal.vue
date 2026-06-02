@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import QrcodeVue from 'qrcode.vue';
 import { useAuthStore } from '../stores/authStore';

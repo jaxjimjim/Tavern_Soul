@@ -133,8 +133,8 @@ export const usePlayerStore = defineStore('player', () => {
   loadState();
   engine.crossfadeDuration = crossfadeDuration.value * 1000;
   engine.setGlobalVolume(volume.value);
-  if (engine.setSinkIds) {
-    engine.setSinkIds(activeDeviceIds.value);
+  if ((engine as any).setSinkIds) {
+    (engine as any).setSinkIds(activeDeviceIds.value);
   }
 
   // Auto-save on changes
@@ -142,6 +142,9 @@ export const usePlayerStore = defineStore('player', () => {
     [queue, currentIndex, currentTrack, currentLyric, crossfadeDuration, audioQuality, volume, schedules, activeAtmosphere, activeDeviceIds],
     () => {
       saveState();
+      if ((engine as any).setSinkIds) {
+        (engine as any).setSinkIds(activeDeviceIds.value);
+      }
     },
     { deep: true }
   );
